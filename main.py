@@ -31,10 +31,10 @@ def run_action(req: RunRequest, authorization: str | None = Header(default=None)
     if authorization != expected:
         raise HTTPException(status_code=401, detail="Not authenticated")
 
-    script_path = (ACTIONS_DIR / req.file).resolve()
-
-    if not str(script_path).startswith(str(ACTIONS_DIR)):
+    if req.file.startswith("/") or ".." in Path(req.file).parts:
         raise HTTPException(status_code=400, detail="Invalid script path")
+
+    script_path = ACTIONS_DIR / req.file
 
     if not script_path.exists():
         raise HTTPException(status_code=404, detail=f"Script not found: {req.file}")
