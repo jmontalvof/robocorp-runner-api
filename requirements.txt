@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+pydantic
+robocorp
+robocorp-tasks
+robocorp-actions
+requests
